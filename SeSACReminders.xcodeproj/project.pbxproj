@@ -20,6 +20,9 @@
 		DE7D568C2B7C90F50060BE42 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D568B2B7C90F50060BE42 /* UIView+Extension.swift */; };
 		DE7D568F2B7C97E50060BE42 /* TodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D568E2B7C97E50060BE42 /* TodoViewController.swift */; };
 		DE7D56922B7C9D840060BE42 /* TodoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D56912B7C9D840060BE42 /* TodoTableViewCell.swift */; };
+		DE7D56942B7CB0850060BE42 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D56932B7CB0850060BE42 /* DateViewController.swift */; };
+		DE7D56962B7CC5C60060BE42 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D56952B7CC5C60060BE42 /* TagViewController.swift */; };
+		DE7D56982B7CC5DB0060BE42 /* PriorityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D56972B7CC5DB0060BE42 /* PriorityViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +39,9 @@
 		DE7D568B2B7C90F50060BE42 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		DE7D568E2B7C97E50060BE42 /* TodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoViewController.swift; sourceTree = "<group>"; };
 		DE7D56912B7C9D840060BE42 /* TodoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTableViewCell.swift; sourceTree = "<group>"; };
+		DE7D56932B7CB0850060BE42 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
+		DE7D56952B7CC5C60060BE42 /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
+		DE7D56972B7CC5DB0060BE42 /* PriorityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +86,9 @@
 				DE7D56742B7C7EBE0060BE42 /* Assets.xcassets */,
 				DE7D56762B7C7EBE0060BE42 /* LaunchScreen.storyboard */,
 				DE7D56792B7C7EBE0060BE42 /* Info.plist */,
+				DE7D56932B7CB0850060BE42 /* DateViewController.swift */,
+				DE7D56952B7CC5C60060BE42 /* TagViewController.swift */,
+				DE7D56972B7CC5DB0060BE42 /* PriorityViewController.swift */,
 			);
 			path = SeSACReminders;
 			sourceTree = "<group>";
@@ -197,6 +206,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE7D56982B7CC5DB0060BE42 /* PriorityViewController.swift in Sources */,
 				DE7D568C2B7C90F50060BE42 /* UIView+Extension.swift in Sources */,
 				DE7D568A2B7C8D600060BE42 /* HomeCollectionViewCell.swift in Sources */,
 				DE7D56702B7C7EBC0060BE42 /* HomeViewController.swift in Sources */,
@@ -204,6 +214,8 @@
 				DE7D56812B7C7F120060BE42 /* BaseViewController.swift in Sources */,
 				DE7D566C2B7C7EBC0060BE42 /* AppDelegate.swift in Sources */,
 				DE7D568F2B7C97E50060BE42 /* TodoViewController.swift in Sources */,
+				DE7D56962B7CC5C60060BE42 /* TagViewController.swift in Sources */,
+				DE7D56942B7CB0850060BE42 /* DateViewController.swift in Sources */,
 				DE7D566E2B7C7EBC0060BE42 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
