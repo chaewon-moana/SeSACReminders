@@ -18,12 +18,15 @@ final class TodoViewController: BaseViewController {
         case addImage = "이미지 추가"
     }
     
-    let vcList = [DateViewController(), TagViewController(), PriorityViewController()]
-    
     let label = UILabel()
     let tableView = UITableView(frame: .zero, style: .insetGrouped)
         
     let textViewPlaceHolder = "메모"
+    var dateValue = "" {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,8 +47,27 @@ final class TodoViewController: BaseViewController {
         tableView.rowHeight = 50
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(datePickerReceived), name: Notification.Name("DateValueReceived"), object: nil)
     }
+    
+    @objc func datePickerReceived(notification: NSNotification) {
+        if let value = notification.userInfo?["datePickerValue"] as? Date {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            let str = dateFormatter.string(from: value)
+            let convertDate = dateFormatter.date(from: str)
+            
+            let myDateFormatter = DateFormatter()
+            myDateFormatter.dateFormat = "yyyy년 MM월 dd일 a hh:mm"
+            myDateFormatter.locale = Locale(identifier:"ko_KR")
+            let convertStr = myDateFormatter.string(from: convertDate!)
+            dateValue = convertStr
+            print(dateValue)
 
+        }
+            
+    }
     
     @objc func leftButtonTapped() {
         dismiss(animated: true)
@@ -81,7 +103,22 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTableViewCell")!
+        
         cell.textLabel?.text = todoList.allCases[indexPath.section].rawValue
+        if todoList.allCases[indexPath.section].rawValue == "마감일" {
+            let label = UILabel()
+            label.text = dateValue
+            label.font = .systemFont(ofSize: 12)
+            label.textAlignment = .right
+            label.textColor = .gray
+            cell.contentView.addSubview(label)
+            label.snp.makeConstraints { make in
+                make.height.equalTo(12)
+                make.width.equalTo(200)
+                make.centerY.equalTo(cell.contentView)
+                make.trailing.equalTo(cell.contentView).inset(20)
+            }
+        }
         cell.accessoryType = .disclosureIndicator
         cell.backgroundColor = .secondBackgroundColor
         cell.selectionStyle = .none
@@ -91,10 +128,10 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = vcList[indexPath.row]
+        let vcList = [DateViewController(), TagViewController(), PriorityViewController()]
+        let vc = vcList[indexPath.section]
         navigationController?.pushViewController(vc, animated: true)
-    }
-    
+        }
     
     func setTableViewHeader() -> UIView {
         let header = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 200))

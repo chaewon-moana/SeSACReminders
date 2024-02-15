@@ -89,9 +89,6 @@
 				DE7D56742B7C7EBE0060BE42 /* Assets.xcassets */,
 				DE7D56762B7C7EBE0060BE42 /* LaunchScreen.storyboard */,
 				DE7D56792B7C7EBE0060BE42 /* Info.plist */,
-				DE7D56932B7CB0850060BE42 /* DateViewController.swift */,
-				DE7D56952B7CC5C60060BE42 /* TagViewController.swift */,
-				DE7D56972B7CC5DB0060BE42 /* PriorityViewController.swift */,
 			);
 			path = SeSACReminders;
 			sourceTree = "<group>";
@@ -125,6 +122,9 @@
 		DE7D56902B7C98B70060BE42 /* Todo */ = {
 			isa = PBXGroup;
 			children = (
+				DE7D56932B7CB0850060BE42 /* DateViewController.swift */,
+				DE7D56952B7CC5C60060BE42 /* TagViewController.swift */,
+				DE7D56972B7CC5DB0060BE42 /* PriorityViewController.swift */,
 				DE7D568E2B7C97E50060BE42 /* TodoViewController.swift */,
 				DE7D56912B7C9D840060BE42 /* TodoTableViewCell.swift */,
 			);

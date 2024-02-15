@@ -14,7 +14,7 @@ class TagViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = .primaryBackgroundColor
     }
     
     override func setAddView() {
@@ -31,7 +31,10 @@ class TagViewController: BaseViewController {
     
     override func configureAttribute() {
         super.configureAttribute()
-        tagTextField.backgroundColor = .blue
+        tagTextField.backgroundColor = .secondBackgroundColor
+        tagTextField.layer.cornerRadius = 8
+        tagTextField.placeholder = "태그를 입력해주세요"
+        tagTextField.textColor = .white
         
     }
 }

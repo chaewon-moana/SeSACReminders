@@ -18,8 +18,6 @@ class BaseViewController: UIViewController {
     
     func setAddView() { }
     func configureLayout() { }
-    func configureAttribute() {
-        view.backgroundColor = .black
-    }
+    func configureAttribute() { }
     
 }
