@@ -24,6 +24,9 @@
 		DE7D56962B7CC5C60060BE42 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D56952B7CC5C60060BE42 /* TagViewController.swift */; };
 		DE7D56982B7CC5DB0060BE42 /* PriorityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D56972B7CC5DB0060BE42 /* PriorityViewController.swift */; };
 		DE7D56A32B7E2F350060BE42 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D56A22B7E2F350060BE42 /* Color+Extension.swift */; };
+		DE7D56A52B7E40690060BE42 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D56A42B7E40690060BE42 /* RealmModel.swift */; };
+		DE7D56A82B7E40B70060BE42 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DE7D56A72B7E40B70060BE42 /* Realm */; };
+		DE7D56AA2B7E40B70060BE42 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DE7D56A92B7E40B70060BE42 /* RealmSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +47,7 @@
 		DE7D56952B7CC5C60060BE42 /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		DE7D56972B7CC5DB0060BE42 /* PriorityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityViewController.swift; sourceTree = "<group>"; };
 		DE7D56A22B7E2F350060BE42 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		DE7D56A42B7E40690060BE42 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +55,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE7D56AA2B7E40B70060BE42 /* RealmSwift in Frameworks */,
+				DE7D56A82B7E40B70060BE42 /* Realm in Frameworks */,
 				DE7D56852B7C816A0060BE42 /* SnapKit in Frameworks */,
 				DE7D56882B7C81720060BE42 /* Alamofire in Frameworks */,
 			);
@@ -134,6 +140,7 @@
 		DE7D56A12B7DE5B40060BE42 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
+				DE7D56A42B7E40690060BE42 /* RealmModel.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -157,6 +164,8 @@
 			packageProductDependencies = (
 				DE7D56842B7C816A0060BE42 /* SnapKit */,
 				DE7D56872B7C81720060BE42 /* Alamofire */,
+				DE7D56A72B7E40B70060BE42 /* Realm */,
+				DE7D56A92B7E40B70060BE42 /* RealmSwift */,
 			);
 			productName = SeSACReminders;
 			productReference = DE7D56682B7C7EBC0060BE42 /* SeSACReminders.app */;
@@ -189,6 +198,7 @@
 			packageReferences = (
 				DE7D56832B7C816A0060BE42 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				DE7D56862B7C81720060BE42 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				DE7D56A62B7E40B70060BE42 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = DE7D56692B7C7EBC0060BE42 /* Products */;
 			projectDirPath = "";
@@ -228,6 +238,7 @@
 				DE7D568F2B7C97E50060BE42 /* TodoViewController.swift in Sources */,
 				DE7D56962B7CC5C60060BE42 /* TagViewController.swift in Sources */,
 				DE7D56942B7CB0850060BE42 /* DateViewController.swift in Sources */,
+				DE7D56A52B7E40690060BE42 /* RealmModel.swift in Sources */,
 				DE7D566E2B7C7EBC0060BE42 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -475,6 +486,14 @@
 				minimumVersion = 5.8.1;
 			};
 		};
+		DE7D56A62B7E40B70060BE42 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.47.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -487,6 +506,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DE7D56862B7C81720060BE42 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		DE7D56A72B7E40B70060BE42 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DE7D56A62B7E40B70060BE42 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		DE7D56A92B7E40B70060BE42 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DE7D56A62B7E40B70060BE42 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

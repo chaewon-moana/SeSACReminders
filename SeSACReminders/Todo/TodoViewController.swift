@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-
+import RealmSwift
 
 final class TodoViewController: BaseViewController {
 
@@ -20,9 +20,10 @@ final class TodoViewController: BaseViewController {
     
     let label = UILabel()
     let tableView = UITableView(frame: .zero, style: .insetGrouped)
-        
+    
     let textViewPlaceHolder = "메모"
-    var dateValue = "" {
+    
+    var currentDate: TodoTable = TodoTable(title: "", memo: nil, dueDate: nil, tag: nil, priority: nil) {
         didSet {
             tableView.reloadData()
         }
@@ -40,7 +41,6 @@ final class TodoViewController: BaseViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        //tableView.register(TodoTableViewCell.self, forCellReuseIdentifier: "TodoTableViewCell")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TodoTableViewCell")
         tableView.sectionFooterHeight = 0
         tableView.tableHeaderView = setTableViewHeader()
@@ -49,6 +49,13 @@ final class TodoViewController: BaseViewController {
         tableView.backgroundColor = .clear
         
         NotificationCenter.default.addObserver(self, selector: #selector(datePickerReceived), name: Notification.Name("DateValueReceived"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(tagReceived), name: Notification.Name("TagValueReceived"), object: nil)
+    }
+    
+    @objc func tagReceived(notification: NSNotification) {
+        if let value = notification.userInfo?["tag"] as? String {
+            
+        }
     }
     
     @objc func datePickerReceived(notification: NSNotification) {
@@ -62,11 +69,9 @@ final class TodoViewController: BaseViewController {
             myDateFormatter.dateFormat = "yyyy년 MM월 dd일 a hh:mm"
             myDateFormatter.locale = Locale(identifier:"ko_KR")
             let convertStr = myDateFormatter.string(from: convertDate!)
-            dateValue = convertStr
-            print(dateValue)
-
+            //dateValue = convertStr
+            currentDate.dueDate = convertStr
         }
-            
     }
     
     @objc func leftButtonTapped() {
@@ -74,14 +79,21 @@ final class TodoViewController: BaseViewController {
     }
     @objc func rightButtonTapped() {
         print(#function)
+        let realm = try! Realm()
+        print(realm.configuration.fileURL)
+        let data = currentDate
+        try! realm.write {
+            realm.add(data)
+            print("realm create")
+        }
     }
+    
     override func setAddView() {
         view.addSubviews([tableView])
     }
  
     override func configureAttribute() {
         super.configureAttribute()
-        label.text = "123123"
         label.textColor = .white
     }
     
@@ -107,7 +119,7 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = todoList.allCases[indexPath.section].rawValue
         if todoList.allCases[indexPath.section].rawValue == "마감일" {
             let label = UILabel()
-            label.text = dateValue
+            label.text = currentDate.dueDate ?? ""
             label.font = .systemFont(ofSize: 12)
             label.textAlignment = .right
             label.textColor = .gray
@@ -193,6 +205,7 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
 }
+
 extension TodoViewController: UITextViewDelegate {
 
     func textViewDidBeginEditing(_ textView: UITextView) {

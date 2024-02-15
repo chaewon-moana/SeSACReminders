@@ -16,7 +16,10 @@ class TagViewController: BaseViewController {
         super.viewDidLoad()
         view.backgroundColor = .primaryBackgroundColor
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.post(name: Notification.Name("TagValueReceived"), object: nil, userInfo: ["tag": tagTextField.text!])
+    }
     override func setAddView() {
         view.addSubviews([tagTextField])
     }
