@@ -22,7 +22,11 @@ final class TodoViewController: BaseViewController {
     let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     let textViewPlaceHolder = "메모"
-    
+    var dateValue: String = "" {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     var currentDate: TodoTable = TodoTable(title: "", memo: nil, dueDate: nil, tag: nil, priority: nil) {
         didSet {
             tableView.reloadData()
@@ -54,7 +58,7 @@ final class TodoViewController: BaseViewController {
     
     @objc func tagReceived(notification: NSNotification) {
         if let value = notification.userInfo?["tag"] as? String {
-            
+            currentDate.tag = value
         }
     }
     
@@ -69,7 +73,7 @@ final class TodoViewController: BaseViewController {
             myDateFormatter.dateFormat = "yyyy년 MM월 dd일 a hh:mm"
             myDateFormatter.locale = Locale(identifier:"ko_KR")
             let convertStr = myDateFormatter.string(from: convertDate!)
-            //dateValue = convertStr
+            dateValue = convertStr
             currentDate.dueDate = convertStr
         }
     }
@@ -86,6 +90,8 @@ final class TodoViewController: BaseViewController {
             realm.add(data)
             print("realm create")
         }
+        
+        dismiss(animated: true)
     }
     
     override func setAddView() {
@@ -119,7 +125,7 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = todoList.allCases[indexPath.section].rawValue
         if todoList.allCases[indexPath.section].rawValue == "마감일" {
             let label = UILabel()
-            label.text = currentDate.dueDate ?? ""
+            label.text = dateValue
             label.font = .systemFont(ofSize: 12)
             label.textAlignment = .right
             label.textColor = .gray
@@ -158,6 +164,7 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
         }()
         let titleTextField = {
             let view = UITextField()
+            view.delegate = self
             view.attributedPlaceholder = NSAttributedString(string: "제목", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
             view.textColor = .white
             return view
@@ -201,9 +208,16 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         return header
-  
     }
     
+}
+
+extension TodoViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.text! != "" {
+            currentDate.title = textField.text!
+        }
+    }
 }
 
 extension TodoViewController: UITextViewDelegate {
@@ -219,6 +233,8 @@ extension TodoViewController: UITextViewDelegate {
         if textView.text.isEmpty {
             textView.text = textViewPlaceHolder
             textView.textColor = .gray
+        } else {
+            currentDate.memo = textView.text
         }
     }
 }
