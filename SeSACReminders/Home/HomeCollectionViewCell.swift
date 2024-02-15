@@ -46,7 +46,7 @@ final class HomeCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureAttribute() {
-        contentView.backgroundColor = .gray
+        contentView.backgroundColor = .primaryBackgroundColor
         contentView.layer.cornerRadius = 8
         imageView.image = UIImage(systemName: "person")
         categoryLabel.textColor = .lightGray

@@ -10,6 +10,14 @@ import SnapKit
 
 final class HomeViewController: BaseViewController {
 
+    enum homeCellList: String, CaseIterable {
+        case today = "오늘"
+        case expected = "예정"
+        case all = "전체"
+        case flag = "깃발 표시"
+        case done = "완료됨"
+    }
+    
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
     
     override func viewDidLoad() {
@@ -75,7 +83,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as! HomeCollectionViewCell
         
-        cell.categoryLabel.text = "잡힐수도 없을만큼 뛰고"
+        //cell.backgroundColor = .primaryBackgroundColor
+        cell.categoryLabel.text = homeCellList.allCases[indexPath.item].rawValue
         cell.countLabel.text = "0"
         
         return cell

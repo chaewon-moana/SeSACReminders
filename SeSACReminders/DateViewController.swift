@@ -14,6 +14,7 @@ class DateViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .black
 
     }
     override func setAddView() {
@@ -25,6 +26,6 @@ class DateViewController: BaseViewController {
     }
     
     override func configureAttribute() {
-        
+        super.configureAttribute()
     }
 }

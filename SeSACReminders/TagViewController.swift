@@ -6,24 +6,32 @@
 //
 
 import UIKit
+import SnapKit
 
-class TagViewController: UIViewController {
+class TagViewController: BaseViewController {
 
+    let tagTextField = UITextField()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func setAddView() {
+        view.addSubviews([tagTextField])
     }
-    */
-
+    
+    override func configureLayout() {
+        tagTextField.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(view).inset(12)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.height.equalTo(40)
+        }
+    }
+    
+    override func configureAttribute() {
+        super.configureAttribute()
+        tagTextField.backgroundColor = .blue
+        
+    }
 }

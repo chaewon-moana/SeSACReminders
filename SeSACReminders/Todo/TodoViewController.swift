@@ -17,12 +17,17 @@ final class TodoViewController: BaseViewController {
         case priority = "우선 순위"
         case addImage = "이미지 추가"
     }
+    
+    let vcList = [DateViewController(), TagViewController(), PriorityViewController()]
+    
     let label = UILabel()
-    let tableView = UITableView()
+    let tableView = UITableView(frame: .zero, style: .insetGrouped)
         
+    let textViewPlaceHolder = "메모"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = .primaryBackgroundColor
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationItem.title = "새로운 할 일"
         let leftButton = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(leftButtonTapped))
@@ -32,9 +37,11 @@ final class TodoViewController: BaseViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(TodoTableViewCell.self, forCellReuseIdentifier: "TodoTableViewCell")
+        //tableView.register(TodoTableViewCell.self, forCellReuseIdentifier: "TodoTableViewCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TodoTableViewCell")
+        tableView.sectionFooterHeight = 0
         tableView.tableHeaderView = setTableViewHeader()
-        tableView.rowHeight = 60
+        tableView.rowHeight = 50
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
     }
@@ -65,44 +72,60 @@ final class TodoViewController: BaseViewController {
 
 extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 1
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return todoList.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTableViewCell", for: indexPath) as! TodoTableViewCell
-        cell.backgroundColor = .clear
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTableViewCell")!
+        cell.textLabel?.text = todoList.allCases[indexPath.section].rawValue
+        cell.accessoryType = .disclosureIndicator
+        cell.backgroundColor = .secondBackgroundColor
         cell.selectionStyle = .none
-        cell.mainLabel.text = todoList.allCases[indexPath.row].rawValue
+        cell.textLabel?.textColor = .white
+        cell.textLabel?.font = .systemFont(ofSize: 14)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = vcList[indexPath.row]
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     
     func setTableViewHeader() -> UIView {
         let header = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 200))
         
-        header.backgroundColor = .black
+        header.backgroundColor = .primaryBackgroundColor
         header.layer.cornerRadius = 8
         let backView = {
             let view = UIView()
-            view.backgroundColor = .gray
+            view.backgroundColor = .secondBackgroundColor
             view.layer.cornerRadius = 8
             return view
         }()
         let titleTextField = {
             let view = UITextField()
-            view.placeholder = "제목"
+            view.attributedPlaceholder = NSAttributedString(string: "제목", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
             view.textColor = .white
             return view
         }()
         let underLine = {
             let view = UIView()
             view.layer.borderWidth = 1
-            view.layer.borderColor = UIColor.lightGray.cgColor
+            view.layer.borderColor = UIColor.tableViewCellbackgroundColor.cgColor
             return view
         }()
         let memoTextView = {
             let view = UITextView()
             view.backgroundColor = .clear
-            view.text = "메모"
+            view.text = textViewPlaceHolder
+            view.textColor = .gray
+            view.font = .systemFont(ofSize: 16)
+            view.delegate = self
             return view
         }()
         
@@ -110,21 +133,21 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
         backView.addSubviews([titleTextField,underLine, memoTextView])
         
         backView.snp.makeConstraints { make in
-            make.edges.equalTo(header).inset(8)
+            make.edges.equalTo(header).inset(20)
         }
         titleTextField.snp.makeConstraints { make in
             make.top.equalTo(backView).offset(8)
-            make.horizontalEdges.equalTo(backView).inset(8)
+            make.horizontalEdges.equalTo(backView).inset(12)
             make.height.equalTo(30)
         }
         underLine.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(backView)
-            make.top.equalTo(titleTextField.snp.bottom).offset(2)
+            make.top.equalTo(titleTextField.snp.bottom).offset(4)
             make.height.equalTo(1)
         }
         memoTextView.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(backView).inset(8)
-            make.top.equalTo(underLine.snp.bottom)
+            make.top.equalTo(underLine.snp.bottom).offset(2)
             make.bottom.equalTo(backView.snp.bottom)
         }
         
@@ -132,4 +155,20 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
   
     }
     
+}
+extension TodoViewController: UITextViewDelegate {
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == textViewPlaceHolder {
+            textView.text = nil
+            textView.textColor = .white
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = textViewPlaceHolder
+            textView.textColor = .gray
+        }
+    }
 }

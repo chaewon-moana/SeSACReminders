@@ -23,6 +23,7 @@
 		DE7D56942B7CB0850060BE42 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D56932B7CB0850060BE42 /* DateViewController.swift */; };
 		DE7D56962B7CC5C60060BE42 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D56952B7CC5C60060BE42 /* TagViewController.swift */; };
 		DE7D56982B7CC5DB0060BE42 /* PriorityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D56972B7CC5DB0060BE42 /* PriorityViewController.swift */; };
+		DE7D56A32B7E2F350060BE42 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D56A22B7E2F350060BE42 /* Color+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		DE7D56932B7CB0850060BE42 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
 		DE7D56952B7CC5C60060BE42 /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		DE7D56972B7CC5DB0060BE42 /* PriorityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityViewController.swift; sourceTree = "<group>"; };
+		DE7D56A22B7E2F350060BE42 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 		DE7D566A2B7C7EBC0060BE42 /* SeSACReminders */ = {
 			isa = PBXGroup;
 			children = (
+				DE7D56A12B7DE5B40060BE42 /* Realm */,
 				DE7D56822B7C7FB70060BE42 /* Base */,
 				DE7D56902B7C98B70060BE42 /* Todo */,
 				DE7D568D2B7C91680060BE42 /* Extension */,
@@ -114,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				DE7D568B2B7C90F50060BE42 /* UIView+Extension.swift */,
+				DE7D56A22B7E2F350060BE42 /* Color+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -125,6 +129,13 @@
 				DE7D56912B7C9D840060BE42 /* TodoTableViewCell.swift */,
 			);
 			path = Todo;
+			sourceTree = "<group>";
+		};
+		DE7D56A12B7DE5B40060BE42 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Realm;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,6 +224,7 @@
 				DE7D56922B7C9D840060BE42 /* TodoTableViewCell.swift in Sources */,
 				DE7D56812B7C7F120060BE42 /* BaseViewController.swift in Sources */,
 				DE7D566C2B7C7EBC0060BE42 /* AppDelegate.swift in Sources */,
+				DE7D56A32B7E2F350060BE42 /* Color+Extension.swift in Sources */,
 				DE7D568F2B7C97E50060BE42 /* TodoViewController.swift in Sources */,
 				DE7D56962B7CC5C60060BE42 /* TagViewController.swift in Sources */,
 				DE7D56942B7CB0850060BE42 /* DateViewController.swift in Sources */,
