@@ -11,10 +11,11 @@ import RealmSwift
 
 final class ListViewController: BaseViewController {
 
+    var delegate: HomeVCUpdated?
+    
     let tableView = UITableView()
     let repo = TodoTableRepository()
     lazy var list = repo.fetchAllRecord()
-    let tapGesture = UITapGestureRecognizer(target: ListViewController.self, action: #selector(checkBoxImageTapped))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,9 +26,14 @@ final class ListViewController: BaseViewController {
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: "ListTableViewCell")
         tableView.rowHeight = 80
         
-        
+        let backButton = UIBarButtonItem(title: "뒤로가기", style: .plain, target: self, action: #selector(backButtonTapped))
+        navigationItem.leftBarButtonItem = backButton
     }
     
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+        delegate?.updateData()
+    }
     override func setAddView() {
         view.addSubview(tableView)
     }
@@ -42,10 +48,6 @@ final class ListViewController: BaseViewController {
         tableView.backgroundColor = .primaryBackgroundColor
     }
 
-    
-    @objc func checkBoxImageTapped() {
-        print("이미지눌려땅!")
-    }
 
 }
 

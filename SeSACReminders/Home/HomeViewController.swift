@@ -13,6 +13,7 @@ protocol HomeVCUpdated {
 }
 
 final class HomeViewController: BaseViewController, HomeVCUpdated {
+    
     func updateData() {
         todoListCount[2] = repo.fetchAllRecordCount()
         todoListCount[4] = repo.fetchDoneRecordCount()
@@ -129,6 +130,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == 2 {
             let vc = ListViewController()
+            vc.delegate = self
             navigationController?.pushViewController(vc, animated: true)
         }
     }
