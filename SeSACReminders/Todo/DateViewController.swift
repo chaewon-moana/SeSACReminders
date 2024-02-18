@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class DateViewController: BaseViewController {
+final class DateViewController: BaseViewController {
     
     let datePicker = UIDatePicker()
     var dateValue: Date?

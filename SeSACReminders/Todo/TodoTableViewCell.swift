@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TodoTableViewCell: UITableViewCell {
+final class TodoTableViewCell: UITableViewCell {
     
     let backView = UIView()
     let mainLabel = UILabel()

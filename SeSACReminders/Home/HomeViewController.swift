@@ -10,6 +10,8 @@ import SnapKit
 
 final class HomeViewController: BaseViewController {
 
+    let repo = TodoTableRepository()
+    
     enum homeCellList: String, CaseIterable {
         case today = "오늘"
         case expected = "예정"
@@ -17,6 +19,14 @@ final class HomeViewController: BaseViewController {
         case flag = "깃발 표시"
         case done = "완료됨"
     }
+    
+    var cellIcons = ["13.square", "calendar", "tray.fill", "flag.fill", "checkmark"]
+    lazy var todoListCount = [0,0,repo.fetchAllRecordCount(),0,repo.fetchDoneRecordCount()] {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    var valueChanged: Int = 0
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
     
@@ -31,10 +41,35 @@ final class HomeViewController: BaseViewController {
         //let image = UIImage(systemName: "plus.circle.fill")
        //TODO: button에 이미지랑 text랑 같이 넣기
        // let TodoAddButton = UIBarButtonItem(title: "새로운 할 일", image: image, target: self, action: #selector(todoAddButtonTapped))
+        
+        let first = UIAction(title: "제목 오름차순") { _ in
+        //
+            //self.repository.sortedTitleAscending(ascending: true)
+        }
+        
+        let second = UIAction(title: "두번째 확인") { _ in
+            print("확확인")
+        }
+        
+        let rightFilterButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet.circle"), style: .plain, target: self, action: #selector(rightFilterButton))
+        //누르면 바로 Menu가 뜨도록 함. 그런데 왜 자동완성이 안됨,,
+        //UIBarButtonItem은 꾹 눌러야 뜸, 누르면 바로 뜨도록 하고 싶을 땐 어떻게 해야하지
+        rightFilterButton.menu = UIMenu(children: [first, second])
+        navigationItem.rightBarButtonItem = rightFilterButton
         let TodoAddButton = UIBarButtonItem(title: "새로운 할 일", style: .plain, target: self, action: #selector(todoAddButtonTapped))
         let listAddButton = UIBarButtonItem(title: "목록 추가", style: .plain, target: self, action: #selector(listAddButtonTapped))
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         toolbarItems = [TodoAddButton, flexibleSpace, listAddButton]
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("HomeVC viewwillAppear")
+        collectionView.reloadData()
+    }
+    
+    @objc func rightFilterButton() {
+        
     }
     
     @objc func listAddButtonTapped() {
@@ -42,8 +77,9 @@ final class HomeViewController: BaseViewController {
     }
     
     @objc func todoAddButtonTapped() {
-        let vc = UINavigationController(rootViewController: TodoViewController())
-        present(vc, animated: true)
+        let vc = TodoViewController()
+        let nav = UINavigationController(rootViewController: vc)
+        present(nav, animated: true)
     }
     
     static func collectionViewLayout() -> UICollectionViewFlowLayout {
@@ -83,9 +119,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as! HomeCollectionViewCell
         
-        //cell.backgroundColor = .primaryBackgroundColor
+        cell.imageView.image = UIImage(systemName: cellIcons[indexPath.item])
         cell.categoryLabel.text = homeCellList.allCases[indexPath.item].rawValue
-        cell.countLabel.text = "0"
+        cell.countLabel.text = indexPath.item == 4 ? "\(todoListCount[indexPath.item]) / \(repo.fetchAllRecordCount())" : "\(todoListCount[indexPath.item])"
         
         return cell
     }

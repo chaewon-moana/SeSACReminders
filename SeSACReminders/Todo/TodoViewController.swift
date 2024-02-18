@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Toast
 
 final class TodoViewController: BaseViewController {
 
@@ -19,15 +20,17 @@ final class TodoViewController: BaseViewController {
     
     let label = UILabel()
     let tableView = UITableView(frame: .zero, style: .insetGrouped)
-    
     let textViewPlaceHolder = "메모"
     var dateValue: String = "" {
         didSet {
             tableView.reloadData()
         }
     }
-    var currentData: TodoTable = TodoTable(title: "", memo: nil, dueDate: nil, tag: nil, priority: nil)
-    let repository = TodoTableRepository()
+    var currentData: TodoTable = TodoTable(title: "", memo: nil, dueDate: nil, tag: nil, priority: nil, done: false)
+    let repo = TodoTableRepository()
+    lazy var rightButton = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(rightButtonTapped))
+    
+    let homeVC = HomeViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +38,11 @@ final class TodoViewController: BaseViewController {
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationItem.title = "새로운 할 일"
         let leftButton = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(leftButtonTapped))
-        let rightButton = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(rightButtonTapped))
+ 
         navigationItem.leftBarButtonItem = leftButton
+        rightButton.isEnabled = false
         navigationItem.rightBarButtonItem = rightButton
+        
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -81,8 +86,9 @@ final class TodoViewController: BaseViewController {
     @objc func rightButtonTapped() {
         print(#function)
         //HELP: 왜 여기서 main 스레드로 동작하도록 바꾸어주면 되는지 모르게써....이 코드가 없다면 Realm에 입력이 되는데도, dismiss가 동작하지 않고 런타임에러가 발생ㅠㅠ
+        
         DispatchQueue.main.async {
-            self.repository.createRecord(self.currentData)
+            self.repo.createRecord(self.currentData)
         }
         dismiss(animated: true)
     }
@@ -224,6 +230,15 @@ extension TodoViewController: UITextFieldDelegate {
         if textField.text! != "" {
             currentData.title = textField.text!
         }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField.text == "" {
+            rightButton.isEnabled = false
+        } else {
+            rightButton.isEnabled = true
+        }
+        return true
     }
 }
 

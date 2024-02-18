@@ -15,9 +15,27 @@ final class TodoTableRepository {
         do {
             try realm.write {
                 realm.add(data)
+                print(realm.configuration.fileURL)
             }
         } catch {
             print("todoTableRepo create error")
         }
+    }
+    
+    func fetchAllRecordCount() -> Int {
+        return realm.objects(TodoTable.self).count
+    }
+    
+    func fetchDoneRecordCount() -> Int {
+        return realm.objects(TodoTable.self).where {
+            $0.done == true
+        }.count
+    }
+    
+  
+    
+    
+    func sortedTitleAscending(ascending: Bool) -> Results<TodoTable> { //true - 오름차순, false - 내림차순
+        return realm.objects(TodoTable.self).sorted(byKeyPath: "title", ascending: ascending)
     }
 }

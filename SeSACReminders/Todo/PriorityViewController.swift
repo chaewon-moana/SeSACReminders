@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class PriorityViewController: BaseViewController {
+final class PriorityViewController: BaseViewController {
     
     enum segmentedArray: String, CaseIterable {
         case high = "높음"
