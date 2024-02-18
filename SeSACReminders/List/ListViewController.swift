@@ -72,5 +72,21 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.reloadData()
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let delete = UIContextualAction(style: .normal, title: "삭제") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            print("삭제삭제")
+            self.repo.deleteItem(self.list[indexPath.row])
+            self.tableView.reloadData()
+            success(true)
+        }
+        delete.backgroundColor = .systemRed
+        
+    
+        
+        //actions배열 인덱스 0이 왼쪽에 붙어서 나옴
+        return UISwipeActionsConfiguration(actions:[delete])
+    }
+    
     
 }
