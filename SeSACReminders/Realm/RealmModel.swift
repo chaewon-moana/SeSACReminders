@@ -14,9 +14,9 @@ class TodoTable: Object {
     @Persisted var memo: String?
     @Persisted var dueDate: String?
     @Persisted var tag: String?
-    @Persisted var priority: Int?
+    @Persisted var priority: String?
     
-    convenience init(title: String, memo: String? = nil, dueDate: String? = nil, tag: String? = nil, priority: Int? = nil) {
+    convenience init(title: String, memo: String? = nil, dueDate: String? = nil, tag: String? = nil, priority: String? = nil) {
         self.init()
         self.title = title
         self.memo = memo

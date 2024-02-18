@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import RealmSwift
 
 final class TodoViewController: BaseViewController {
 
@@ -27,11 +26,8 @@ final class TodoViewController: BaseViewController {
             tableView.reloadData()
         }
     }
-    var currentDate: TodoTable = TodoTable(title: "", memo: nil, dueDate: nil, tag: nil, priority: nil) {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    var currentData: TodoTable = TodoTable(title: "", memo: nil, dueDate: nil, tag: nil, priority: nil)
+    let repository = TodoTableRepository()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +54,7 @@ final class TodoViewController: BaseViewController {
     
     @objc func tagReceived(notification: NSNotification) {
         if let value = notification.userInfo?["tag"] as? String {
-            currentDate.tag = value
+            currentData.tag = value
         }
     }
     
@@ -74,23 +70,20 @@ final class TodoViewController: BaseViewController {
             myDateFormatter.locale = Locale(identifier:"ko_KR")
             let convertStr = myDateFormatter.string(from: convertDate!)
             dateValue = convertStr
-            currentDate.dueDate = convertStr
+            currentData.dueDate = convertStr
         }
     }
     
     @objc func leftButtonTapped() {
         dismiss(animated: true)
     }
+    
     @objc func rightButtonTapped() {
         print(#function)
-        let realm = try! Realm()
-        print(realm.configuration.fileURL)
-        let data = currentDate
-        try! realm.write {
-            realm.add(data)
-            print("realm create")
+        //HELP: 왜 여기서 main 스레드로 동작하도록 바꾸어주면 되는지 모르게써....이 코드가 없다면 Realm에 입력이 되는데도, dismiss가 동작하지 않고 런타임에러가 발생ㅠㅠ
+        DispatchQueue.main.async {
+            self.repository.createRecord(self.currentData)
         }
-        
         dismiss(animated: true)
     }
     
@@ -146,10 +139,23 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vcList = [DateViewController(), TagViewController(), PriorityViewController()]
-        let vc = vcList[indexPath.section]
-        navigationController?.pushViewController(vc, animated: true)
+        switch indexPath.section {
+        case 0 :
+            let vc = DateViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        case 1 :
+            let vc = TagViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        case 2:
+            let vc = PriorityViewController()
+            vc.value = { value in
+                self.currentData.priority = value
+            }
+            navigationController?.pushViewController(vc, animated: true)
+        default:
+            print("TodoVC switch문 에러")
         }
+    }
     
     func setTableViewHeader() -> UIView {
         let header = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 200))
@@ -186,36 +192,37 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
         }()
         
         header.addSubview(backView)
-        backView.addSubviews([titleTextField,underLine, memoTextView])
+        backView.addSubviews([titleTextField, underLine, memoTextView])
         
         backView.snp.makeConstraints { make in
             make.edges.equalTo(header).inset(20)
         }
+        
         titleTextField.snp.makeConstraints { make in
             make.top.equalTo(backView).offset(8)
             make.horizontalEdges.equalTo(backView).inset(12)
             make.height.equalTo(30)
         }
+        
         underLine.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(backView)
             make.top.equalTo(titleTextField.snp.bottom).offset(4)
             make.height.equalTo(1)
         }
+        
         memoTextView.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(backView).inset(8)
             make.top.equalTo(underLine.snp.bottom).offset(2)
             make.bottom.equalTo(backView.snp.bottom)
         }
-        
         return header
     }
-    
 }
 
 extension TodoViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField.text! != "" {
-            currentDate.title = textField.text!
+            currentData.title = textField.text!
         }
     }
 }
@@ -234,7 +241,7 @@ extension TodoViewController: UITextViewDelegate {
             textView.text = textViewPlaceHolder
             textView.textColor = .gray
         } else {
-            currentDate.memo = textView.text
+            currentData.memo = textView.text
         }
     }
 }

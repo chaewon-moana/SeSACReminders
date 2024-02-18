@@ -27,6 +27,7 @@
 		DE7D56A52B7E40690060BE42 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D56A42B7E40690060BE42 /* RealmModel.swift */; };
 		DE7D56A82B7E40B70060BE42 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DE7D56A72B7E40B70060BE42 /* Realm */; };
 		DE7D56AA2B7E40B70060BE42 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DE7D56A92B7E40B70060BE42 /* RealmSwift */; };
+		DEA87BE42B81E7A900DD899E /* TodoTableRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BE32B81E7A900DD899E /* TodoTableRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		DE7D56972B7CC5DB0060BE42 /* PriorityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityViewController.swift; sourceTree = "<group>"; };
 		DE7D56A22B7E2F350060BE42 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		DE7D56A42B7E40690060BE42 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
+		DEA87BE32B81E7A900DD899E /* TodoTableRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTableRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				DE7D56A42B7E40690060BE42 /* RealmModel.swift */,
+				DEA87BE32B81E7A900DD899E /* TodoTableRepository.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 				DE7D56812B7C7F120060BE42 /* BaseViewController.swift in Sources */,
 				DE7D566C2B7C7EBC0060BE42 /* AppDelegate.swift in Sources */,
 				DE7D56A32B7E2F350060BE42 /* Color+Extension.swift in Sources */,
+				DEA87BE42B81E7A900DD899E /* TodoTableRepository.swift in Sources */,
 				DE7D568F2B7C97E50060BE42 /* TodoViewController.swift in Sources */,
 				DE7D56962B7CC5C60060BE42 /* TagViewController.swift in Sources */,
 				DE7D56942B7CB0850060BE42 /* DateViewController.swift in Sources */,
