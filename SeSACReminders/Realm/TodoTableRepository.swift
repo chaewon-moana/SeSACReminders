@@ -32,9 +32,6 @@ final class TodoTableRepository {
         }.count
     }
     
-  
-    
-    
     func sortedTitleAscending(ascending: Bool) -> Results<TodoTable> { //true - 오름차순, false - 내림차순
         return realm.objects(TodoTable.self).sorted(byKeyPath: "title", ascending: ascending)
     }

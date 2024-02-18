@@ -8,7 +8,16 @@
 import UIKit
 import SnapKit
 
-final class HomeViewController: BaseViewController {
+protocol HomeVCUpdated {
+    func updateData()
+}
+
+final class HomeViewController: BaseViewController, HomeVCUpdated {
+    func updateData() {
+        todoListCount[2] = repo.fetchAllRecordCount()
+        todoListCount[4] = repo.fetchDoneRecordCount()
+        collectionView.reloadData()
+    }
 
     let repo = TodoTableRepository()
     
@@ -21,11 +30,7 @@ final class HomeViewController: BaseViewController {
     }
     
     var cellIcons = ["13.square", "calendar", "tray.fill", "flag.fill", "checkmark"]
-    lazy var todoListCount = [0,0,repo.fetchAllRecordCount(),0,repo.fetchDoneRecordCount()] {
-        didSet {
-            collectionView.reloadData()
-        }
-    }
+    lazy var todoListCount = [0,0,repo.fetchAllRecordCount(),0,repo.fetchDoneRecordCount()]
     var valueChanged: Int = 0
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
@@ -62,12 +67,6 @@ final class HomeViewController: BaseViewController {
         toolbarItems = [TodoAddButton, flexibleSpace, listAddButton]
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("HomeVC viewwillAppear")
-        collectionView.reloadData()
-    }
-    
     @objc func rightFilterButton() {
         
     }
@@ -78,6 +77,7 @@ final class HomeViewController: BaseViewController {
     
     @objc func todoAddButtonTapped() {
         let vc = TodoViewController()
+        vc.delegate = self
         let nav = UINavigationController(rootViewController: vc)
         present(nav, animated: true)
     }
@@ -121,8 +121,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         cell.imageView.image = UIImage(systemName: cellIcons[indexPath.item])
         cell.categoryLabel.text = homeCellList.allCases[indexPath.item].rawValue
-        cell.countLabel.text = indexPath.item == 4 ? "\(todoListCount[indexPath.item]) / \(repo.fetchAllRecordCount())" : "\(todoListCount[indexPath.item])"
-        
+//        cell.countLabel.text = indexPath.item == 4 ? "\(todoListCount[indexPath.item]) / \(repo.fetchAllRecordCount())" : "\(todoListCount[indexPath.item])"
+        cell.countLabel.text = "\(todoListCount[indexPath.item])"
         return cell
     }
     

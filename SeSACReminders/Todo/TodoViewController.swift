@@ -18,6 +18,8 @@ final class TodoViewController: BaseViewController {
         case addImage = "이미지 추가"
     }
     
+    var delegate: HomeVCUpdated?
+    
     let label = UILabel()
     let tableView = UITableView(frame: .zero, style: .insetGrouped)
     let textViewPlaceHolder = "메모"
@@ -43,7 +45,6 @@ final class TodoViewController: BaseViewController {
         rightButton.isEnabled = false
         navigationItem.rightBarButtonItem = rightButton
         
-        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TodoTableViewCell")
@@ -57,6 +58,11 @@ final class TodoViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(tagReceived), name: Notification.Name("TagValueReceived"), object: nil)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("뷰윌디스어피어r")
+        delegate?.updateData()
+    }
     @objc func tagReceived(notification: NSNotification) {
         if let value = notification.userInfo?["tag"] as? String {
             currentData.tag = value
@@ -86,10 +92,10 @@ final class TodoViewController: BaseViewController {
     @objc func rightButtonTapped() {
         print(#function)
         //HELP: 왜 여기서 main 스레드로 동작하도록 바꾸어주면 되는지 모르게써....이 코드가 없다면 Realm에 입력이 되는데도, dismiss가 동작하지 않고 런타임에러가 발생ㅠㅠ
-        
         DispatchQueue.main.async {
             self.repo.createRecord(self.currentData)
         }
+        delegate?.updateData()
         dismiss(animated: true)
     }
     
