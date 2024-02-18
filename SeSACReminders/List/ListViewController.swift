@@ -7,11 +7,14 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 final class ListViewController: BaseViewController {
 
     let tableView = UITableView()
     let repo = TodoTableRepository()
+    lazy var list = repo.fetchAllRecord()
+    let tapGesture = UITapGestureRecognizer(target: ListViewController.self, action: #selector(checkBoxImageTapped))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +22,9 @@ final class ListViewController: BaseViewController {
         view.backgroundColor = .primaryBackgroundColor
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "system")
+        tableView.register(ListTableViewCell.self, forCellReuseIdentifier: "ListTableViewCell")
+        tableView.rowHeight = 80
+        
         
     }
     
@@ -34,7 +39,12 @@ final class ListViewController: BaseViewController {
     }
     
     override func configureAttribute() {
-        tableView.backgroundColor = .blue
+        tableView.backgroundColor = .primaryBackgroundColor
+    }
+
+    
+    @objc func checkBoxImageTapped() {
+        print("이미지눌려땅!")
     }
 
 }
@@ -45,9 +55,19 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "system")!
-        cell.textLabel?.text = "testtest"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ListTableViewCell", for: indexPath) as! ListTableViewCell
+
+        cell.checkBoxImage.image = list[indexPath.row].done ? UIImage(systemName: "circle.fill") : UIImage(systemName: "circle")
+        cell.titleLabel.text = list[indexPath.row].title
+        cell.memoLabel.text = list[indexPath.row].memo
+        cell.dueDate.text = list[indexPath.row].dueDate
+        cell.tagLabel.text = list[indexPath.row].tag
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        repo.updateDoneAttribute(index: indexPath.row)
+        tableView.reloadData()
     }
     
     

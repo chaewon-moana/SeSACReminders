@@ -30,6 +30,7 @@
 		DEA87BE42B81E7A900DD899E /* TodoTableRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BE32B81E7A900DD899E /* TodoTableRepository.swift */; };
 		DEA87BE72B821C4B00DD899E /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BE62B821C4B00DD899E /* ListViewController.swift */; };
 		DEA87BEA2B82255100DD899E /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = DEA87BE92B82255100DD899E /* Toast */; };
+		DEA87BEC2B822F1900DD899E /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BEB2B822F1900DD899E /* ListTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		DE7D56A42B7E40690060BE42 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 		DEA87BE32B81E7A900DD899E /* TodoTableRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTableRepository.swift; sourceTree = "<group>"; };
 		DEA87BE62B821C4B00DD899E /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		DEA87BEB2B822F1900DD899E /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				DEA87BE62B821C4B00DD899E /* ListViewController.swift */,
+				DEA87BEB2B822F1900DD899E /* ListTableViewCell.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -246,6 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE7D56982B7CC5DB0060BE42 /* PriorityViewController.swift in Sources */,
+				DEA87BEC2B822F1900DD899E /* ListTableViewCell.swift in Sources */,
 				DE7D568C2B7C90F50060BE42 /* UIView+Extension.swift in Sources */,
 				DE7D568A2B7C8D600060BE42 /* HomeCollectionViewCell.swift in Sources */,
 				DE7D56702B7C7EBC0060BE42 /* HomeViewController.swift in Sources */,

@@ -126,5 +126,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.item == 2 {
+            let vc = ListViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
     
 }
