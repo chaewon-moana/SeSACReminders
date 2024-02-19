@@ -16,6 +16,7 @@ final class ListTableViewCell: UITableViewCell {
     let stackView = UIStackView()
     let dueDate = UILabel()
     let tagLabel = UILabel()
+    let photoImageView = UIImageView()
     //TODO: priority 별 3개로 그려서 checkBoxImage아래에 넣기
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -27,7 +28,7 @@ final class ListTableViewCell: UITableViewCell {
     }
     
     private func setAddView() {
-        contentView.addSubviews([checkBoxImage, titleLabel, memoLabel, stackView])
+        contentView.addSubviews([checkBoxImage, titleLabel, memoLabel, stackView, photoImageView])
         stackView.addSubviews([dueDate, tagLabel])
     }
     
@@ -56,17 +57,18 @@ final class ListTableViewCell: UITableViewCell {
             make.top.equalTo(memoLabel.snp.bottom).offset(4)
             make.width.equalTo(100)
         }
-        
-        dueDate.text = "마감일@"
         dueDate.snp.makeConstraints { make in
             make.leading.equalTo(stackView.snp.leading)
             make.centerY.equalToSuperview()
         }
-        
-        tagLabel.text = "태그태그"
         tagLabel.snp.makeConstraints { make in
             make.leading.equalTo(dueDate.snp.trailing).offset(4)
             make.centerY.equalToSuperview()
+        }
+        photoImageView.snp.makeConstraints { make in
+            make.size.equalTo(50)
+            make.trailing.equalTo(contentView).inset(10)
+            make.centerY.equalTo(contentView)
         }
     }
     
@@ -87,6 +89,7 @@ final class ListTableViewCell: UITableViewCell {
         
         tagLabel.textColor = .blue
         tagLabel.font = .systemFont(ofSize: 13)
+        
     }
     
     required init?(coder: NSCoder) {

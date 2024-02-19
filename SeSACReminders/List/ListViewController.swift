@@ -75,12 +75,13 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListTableViewCell", for: indexPath) as! ListTableViewCell
-
-        cell.checkBoxImage.image = list[indexPath.row].done ? UIImage(systemName: "circle.fill") : UIImage(systemName: "circle")
-        cell.titleLabel.text = list[indexPath.row].title
-        cell.memoLabel.text = list[indexPath.row].memo
-        cell.dueDate.text = "\(list[indexPath.row].dueDate)"
-        cell.tagLabel.text = list[indexPath.row].tag
+        let item = list[indexPath.row]
+        cell.checkBoxImage.image = item.done ? UIImage(systemName: "circle.fill") : UIImage(systemName: "circle")
+        cell.titleLabel.text = item.title
+        cell.memoLabel.text = item.memo
+        cell.dueDate.text = "\(item.dueDate)"
+        cell.tagLabel.text = item.tag
+        cell.photoImageView.image = loadImageFromDocument(fileName: "\(item.id)")
         return cell
     }
     
