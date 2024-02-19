@@ -38,6 +38,7 @@ final class HomeViewController: BaseViewController, HomeVCUpdated {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        todayTodo()
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -124,15 +125,57 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.categoryLabel.text = homeCellList.allCases[indexPath.item].rawValue
 //        cell.countLabel.text = indexPath.item == 4 ? "\(todoListCount[indexPath.item]) / \(repo.fetchAllRecordCount())" : "\(todoListCount[indexPath.item])"
         cell.countLabel.text = "\(todoListCount[indexPath.item])"
+        if indexPath.item == 0 {
+            cell.countLabel.text = "\(todayTodo())"
+        } else if indexPath.item == 1 {
+            cell.countLabel.text = "\(expectedTodo())"
+        }
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item == 2 {
-            let vc = ListViewController()
-            vc.delegate = self
+        let vc = ListViewController()
+        vc.delegate = self
+        if indexPath.item == 0 {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+            
+            let start = Calendar.current.startOfDay(for: Date())
+            let end: Date = Calendar.current.date(byAdding: .day, value: 1, to: start) ?? Date()
+            let predicate = NSPredicate(format: "dueDate >= %@ && dueDate < %@", start as NSDate, end as NSDate)
+            
+            vc.list = repo.fetchAllRecord().filter(predicate)
             navigationController?.pushViewController(vc, animated: true)
         }
+        if indexPath.item == 2 {
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func todayTodo() -> Int {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        
+        let start = Calendar.current.startOfDay(for: Date())
+        let end: Date = Calendar.current.date(byAdding: .day, value: 1, to: start) ?? Date()
+        let predicate = NSPredicate(format: "dueDate >= %@ && dueDate < %@", start as NSDate, end as NSDate)
+        
+        let list = repo.fetchAllRecord().filter(predicate)
+        print(list.count)
+        return list.count
+    }
+    
+    func expectedTodo() -> Int {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        
+        let start = Calendar.current.startOfDay(for: Date())
+        let end: Date = Calendar.current.date(byAdding: .day, value: 1, to: start) ?? Date()
+        let predicate = NSPredicate(format: "dueDate > %@", end as NSDate)
+        
+        let list = repo.fetchAllRecord().filter(predicate)
+        return list.count
     }
     
 }

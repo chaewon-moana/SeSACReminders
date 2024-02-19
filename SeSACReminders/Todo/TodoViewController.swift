@@ -53,14 +53,13 @@ final class TodoViewController: BaseViewController {
         tableView.rowHeight = 50
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
-        
         NotificationCenter.default.addObserver(self, selector: #selector(datePickerReceived), name: Notification.Name("DateValueReceived"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(tagReceived), name: Notification.Name("TagValueReceived"), object: nil)
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("뷰윌디스어피어r")
         delegate?.updateData()
     }
     @objc func tagReceived(notification: NSNotification) {
@@ -81,7 +80,7 @@ final class TodoViewController: BaseViewController {
             myDateFormatter.locale = Locale(identifier:"ko_KR")
             let convertStr = myDateFormatter.string(from: convertDate!)
             dateValue = convertStr
-            currentData.dueDate = convertStr
+            currentData.dueDate = myDateFormatter.date(from: convertStr)
         }
     }
     
