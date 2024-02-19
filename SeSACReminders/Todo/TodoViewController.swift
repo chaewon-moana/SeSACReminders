@@ -22,6 +22,8 @@ final class TodoViewController: BaseViewController {
     
     let label = UILabel()
     let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    let photoImageView = UIImageView()
+    
     let textViewPlaceHolder = "메모"
     var dateValue: String = "" {
         didSet {
@@ -55,6 +57,8 @@ final class TodoViewController: BaseViewController {
         tableView.backgroundColor = .clear
         NotificationCenter.default.addObserver(self, selector: #selector(datePickerReceived), name: Notification.Name("DateValueReceived"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(tagReceived), name: Notification.Name("TagValueReceived"), object: nil)
+        
+        photoImageView.image = UIImage(systemName: "star")
         
     }
     
@@ -93,13 +97,16 @@ final class TodoViewController: BaseViewController {
         //HELP: 왜 여기서 main 스레드로 동작하도록 바꾸어주면 되는지 모르게써....이 코드가 없다면 Realm에 입력이 되는데도, dismiss가 동작하지 않고 런타임에러가 발생ㅠㅠ
         DispatchQueue.main.async {
             self.repo.createRecord(self.currentData)
+            if let image = self.photoImageView.image {
+                self.saveImageToDocument(image: image, fileName: "\(self.currentData.id)")
+            }
         }
         delegate?.updateData()
         dismiss(animated: true)
     }
     
     override func setAddView() {
-        view.addSubviews([tableView])
+        view.addSubviews([tableView, photoImageView])
     }
  
     override func configureAttribute() {
@@ -109,7 +116,14 @@ final class TodoViewController: BaseViewController {
     
     override func configureLayout() {
         tableView.snp.makeConstraints { make in
-            make.edges.equalTo(view)
+            make.top.horizontalEdges.equalTo(view)
+            make.height.equalTo(520)
+        }
+        
+        photoImageView.snp.makeConstraints { make in
+            make.top.equalTo(tableView.snp.bottom)
+            make.centerX.equalTo(view)
+            make.size.equalTo(100)
         }
     }
 }
@@ -163,6 +177,11 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
                 self.currentData.priority = value
             }
             navigationController?.pushViewController(vc, animated: true)
+        case 3:
+            let vc = UIImagePickerController()
+            vc.delegate = self
+            vc.allowsEditing = true
+            present(vc, animated: true)
         default:
             print("TodoVC switch문 에러")
         }
@@ -230,6 +249,22 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+extension TodoViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        print(#function)
+        
+        //originalImage를 넣으면 편집을 해도 original이 들어감,,
+        if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            photoImageView.image = pickedImage
+        }
+        dismiss(animated: true)
+    }
+}
+
 extension TodoViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField.text! != "" {
@@ -265,3 +300,5 @@ extension TodoViewController: UITextViewDelegate {
         }
     }
 }
+
+
