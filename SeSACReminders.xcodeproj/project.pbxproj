@@ -34,6 +34,11 @@
 		DEA87BF12B83916500DD899E /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BF02B83916500DD899E /* FileManager+Extension.swift */; };
 		DEA87BF42B83972800DD899E /* TodoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BF32B83972800DD899E /* TodoDetailViewController.swift */; };
 		DEA87BFA2B84864B00DD899E /* HomeCellList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BF92B84864B00DD899E /* HomeCellList.swift */; };
+		DEA87BFE2B84973500DD899E /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BFD2B84973500DD899E /* BaseCollectionViewCell.swift */; };
+		DEA87C002B84988100DD899E /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BFF2B84988100DD899E /* BaseTableViewCell.swift */; };
+		DEA87C022B84990100DD899E /* CustomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87C012B84990100DD899E /* CustomListTableViewCell.swift */; };
+		DEA87C052B849C9700DD899E /* CustomListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87C042B849C9700DD899E /* CustomListViewController.swift */; };
+		DEA87C072B84AE7D00DD899E /* CustomListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87C062B84AE7D00DD899E /* CustomListRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +66,11 @@
 		DEA87BF02B83916500DD899E /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
 		DEA87BF32B83972800DD899E /* TodoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailViewController.swift; sourceTree = "<group>"; };
 		DEA87BF92B84864B00DD899E /* HomeCellList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellList.swift; sourceTree = "<group>"; };
+		DEA87BFD2B84973500DD899E /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		DEA87BFF2B84988100DD899E /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		DEA87C012B84990100DD899E /* CustomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListTableViewCell.swift; sourceTree = "<group>"; };
+		DEA87C042B849C9700DD899E /* CustomListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListViewController.swift; sourceTree = "<group>"; };
+		DEA87C062B84AE7D00DD899E /* CustomListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +108,7 @@
 		DE7D566A2B7C7EBC0060BE42 /* SeSACReminders */ = {
 			isa = PBXGroup;
 			children = (
+				DEA87C032B849C8200DD899E /* CustomList */,
 				DEA87BF82B84863D00DD899E /* Data */,
 				DEA87BF22B83971600DD899E /* TodoDetail */,
 				DEA87BE52B821C4100DD899E /* List */,
@@ -121,6 +132,7 @@
 			children = (
 				DE7D566F2B7C7EBC0060BE42 /* HomeViewController.swift */,
 				DE7D56892B7C8D600060BE42 /* HomeCollectionViewCell.swift */,
+				DEA87C012B84990100DD899E /* CustomListTableViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -129,6 +141,8 @@
 			isa = PBXGroup;
 			children = (
 				DE7D56802B7C7F120060BE42 /* BaseViewController.swift */,
+				DEA87BFD2B84973500DD899E /* BaseCollectionViewCell.swift */,
+				DEA87BFF2B84988100DD899E /* BaseTableViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -160,6 +174,7 @@
 			children = (
 				DE7D56A42B7E40690060BE42 /* RealmModel.swift */,
 				DEA87BE32B81E7A900DD899E /* TodoTableRepository.swift */,
+				DEA87C062B84AE7D00DD899E /* CustomListRepository.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -187,6 +202,14 @@
 				DEA87BF92B84864B00DD899E /* HomeCellList.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		DEA87C032B849C8200DD899E /* CustomList */ = {
+			isa = PBXGroup;
+			children = (
+				DEA87C042B849C9700DD899E /* CustomListViewController.swift */,
+			);
+			path = CustomList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,18 +299,23 @@
 				DE7D56982B7CC5DB0060BE42 /* PriorityViewController.swift in Sources */,
 				DEA87BEC2B822F1900DD899E /* ListTableViewCell.swift in Sources */,
 				DE7D568C2B7C90F50060BE42 /* UIView+Extension.swift in Sources */,
+				DEA87C052B849C9700DD899E /* CustomListViewController.swift in Sources */,
 				DE7D568A2B7C8D600060BE42 /* HomeCollectionViewCell.swift in Sources */,
 				DE7D56702B7C7EBC0060BE42 /* HomeViewController.swift in Sources */,
 				DEA87BFA2B84864B00DD899E /* HomeCellList.swift in Sources */,
 				DE7D56922B7C9D840060BE42 /* TodoTableViewCell.swift in Sources */,
 				DE7D56812B7C7F120060BE42 /* BaseViewController.swift in Sources */,
+				DEA87BFE2B84973500DD899E /* BaseCollectionViewCell.swift in Sources */,
 				DE7D566C2B7C7EBC0060BE42 /* AppDelegate.swift in Sources */,
 				DE7D56A32B7E2F350060BE42 /* Color+Extension.swift in Sources */,
+				DEA87C072B84AE7D00DD899E /* CustomListRepository.swift in Sources */,
 				DEA87BE72B821C4B00DD899E /* ListViewController.swift in Sources */,
 				DEA87BE42B81E7A900DD899E /* TodoTableRepository.swift in Sources */,
 				DEA87BF12B83916500DD899E /* FileManager+Extension.swift in Sources */,
 				DE7D568F2B7C97E50060BE42 /* TodoViewController.swift in Sources */,
 				DE7D56962B7CC5C60060BE42 /* TagViewController.swift in Sources */,
+				DEA87C022B84990100DD899E /* CustomListTableViewCell.swift in Sources */,
+				DEA87C002B84988100DD899E /* BaseTableViewCell.swift in Sources */,
 				DE7D56942B7CB0850060BE42 /* DateViewController.swift in Sources */,
 				DE7D56A52B7E40690060BE42 /* RealmModel.swift in Sources */,
 				DE7D566E2B7C7EBC0060BE42 /* SceneDelegate.swift in Sources */,

@@ -13,16 +13,27 @@ protocol HomeVCUpdated {
     func updateData(data: TodoTable)
 }
 
-final class HomeViewController: BaseViewController, HomeVCUpdated {
+protocol CustomListUpdated {
+    func reloadTable()
+}
+
+final class HomeViewController: BaseViewController, HomeVCUpdated, CustomListUpdated {
     
     func updateData(data: TodoTable) {
         repo.createRecord(data)
         collectionView.reloadData()
     }
+    
+    func reloadTable() {
+        tableView.reloadData()
+    }
 
     let repo = TodoTableRepository()
+    let customRepo = CustomListRepository()
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
+    let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    let customListLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +42,13 @@ final class HomeViewController: BaseViewController, HomeVCUpdated {
         collectionView.dataSource = self
         collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: "HomeCollectionViewCell")
         navigationController?.isToolbarHidden = false
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(CustomListTableViewCell.self, forCellReuseIdentifier: "CustomListTableViewCell")
+        tableView.rowHeight = 50
+        
+        
         //let image = UIImage(systemName: "plus.circle.fill")
        //TODO: button에 이미지랑 text랑 같이 넣기
        // let TodoAddButton = UIBarButtonItem(title: "새로운 할 일", image: image, target: self, action: #selector(todoAddButtonTapped))
@@ -47,7 +65,10 @@ final class HomeViewController: BaseViewController, HomeVCUpdated {
     }
 
     @objc func listAddButtonTapped() {
-        print(#function)
+        let vc = CustomListViewController()
+        let nav = UINavigationController(rootViewController: vc)
+        vc.delegate = self
+        present(nav, animated: true)
     }
     
     @objc func todoAddButtonTapped() {
@@ -70,21 +91,53 @@ final class HomeViewController: BaseViewController, HomeVCUpdated {
     }
  
     override func setAddView() {
-        view.addSubviews([collectionView])
+        view.addSubviews([collectionView, tableView, customListLabel])
     }
     
     override func configureLayout() {
         collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(300)
+        }
+        
+        customListLabel.snp.makeConstraints { make in
+            make.top.equalTo(collectionView.snp.bottom).offset(16)
+            make.leading.equalTo(collectionView.snp.leading).offset(32)
+            make.height.equalTo(20)
+        }
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(customListLabel.snp.bottom)
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
     override func configureAttribute() {
         super.configureAttribute()
         collectionView.backgroundColor = .clear
+        customListLabel.text = "나의 목록"
+        customListLabel.textColor = .white
+        customListLabel.font = .boldSystemFont(ofSize: 20)
+        
     }
 }
-
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return customRepo.fetchAllRecords().count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomListTableViewCell", for: indexPath) as! CustomListTableViewCell
+        let item = customRepo.fetchAllRecords()[indexPath.row]
+        
+        cell.listLabel.text = item.name
+        cell.iconImageView.image = UIImage(systemName: item.icon)
+    
+        
+        return cell
+    }
+    
+    
+}
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5

@@ -8,24 +8,17 @@
 import UIKit
 import SnapKit
 
-final class HomeCollectionViewCell: UICollectionViewCell {
+final class HomeCollectionViewCell: BaseCollectionViewCell {
     
     let imageView = UIImageView()
     let categoryLabel = UILabel()
     let countLabel = UILabel()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setAddView()
-        configureLayout()
-        configureAttribute()
-    }
-    
-    private func setAddView() {
+    override func setAddView() {
         contentView.addSubviews([imageView, categoryLabel, countLabel])
     }
     
-    private func configureLayout() {
+    override func configureLayout() {
         imageView.snp.makeConstraints { make in
             make.size.equalTo(30)
             make.leading.equalTo(contentView).offset(12)
@@ -45,7 +38,7 @@ final class HomeCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private func configureAttribute() {
+    override func configureAttribute() {
         contentView.backgroundColor = .primaryBackgroundColor
         contentView.layer.cornerRadius = 8
         imageView.image = UIImage(systemName: "person")
@@ -53,9 +46,5 @@ final class HomeCollectionViewCell: UICollectionViewCell {
         categoryLabel.font = .systemFont(ofSize: 15)
         countLabel.textColor = .white
         countLabel.font = .boldSystemFont(ofSize: 28)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

@@ -16,6 +16,7 @@ final class TodoViewController: BaseViewController {
         case tag = "태그"
         case priority = "우선 순위"
         case addImage = "이미지 추가"
+        case list = "목록 추가"
     }
     
     var delegate: HomeVCUpdated?
@@ -36,7 +37,6 @@ final class TodoViewController: BaseViewController {
     
     var textViewText = ""
     var textFieldText = ""
-    
     let homeVC = HomeViewController()
     
     override func viewDidLoad() {
@@ -52,16 +52,17 @@ final class TodoViewController: BaseViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        //TODO: SystemCell말고 다르게 할 순 없나,,,,?
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TodoTableViewCell")
+        //tableView.register(TodoTableViewCell.self, forCellReuseIdentifier: "TodoTableViewCell")
         tableView.sectionFooterHeight = 0
         tableView.tableHeaderView = setTableViewHeader()
-        tableView.rowHeight = 50
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         NotificationCenter.default.addObserver(self, selector: #selector(datePickerReceived), name: Notification.Name("DateValueReceived"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(tagReceived), name: Notification.Name("TagValueReceived"), object: nil)
         
-        photoImageView.image = UIImage(systemName: "star")
+        photoImageView.isHidden = true
         
     }
 
@@ -83,6 +84,7 @@ final class TodoViewController: BaseViewController {
     }
     
     @objc func leftButtonTapped() {
+        homeVC.collectionView.reloadData()
         dismiss(animated: true)
     }
     
@@ -94,7 +96,7 @@ final class TodoViewController: BaseViewController {
     }
     
     override func setAddView() {
-        view.addSubviews([tableView, photoImageView])
+        view.addSubviews([tableView])
     }
  
     override func configureAttribute() {
@@ -104,14 +106,15 @@ final class TodoViewController: BaseViewController {
     
     override func configureLayout() {
         tableView.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalTo(view)
-            make.height.equalTo(520)
+//            make.top.horizontalEdges.equalTo(view)
+//            make.height.equalTo(520)
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
-        photoImageView.snp.makeConstraints { make in
-            make.top.equalTo(tableView.snp.bottom)
-            make.centerX.equalTo(view)
-            make.size.equalTo(100)
-        }
+//        photoImageView.snp.makeConstraints { make in
+//            make.top.equalTo(tableView.snp.bottom)
+//            make.centerX.equalTo(view)
+//            make.size.equalTo(100)
+//        }
     }
 }
 
@@ -128,7 +131,7 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTableViewCell")!
         
         cell.textLabel?.text = todoList.allCases[indexPath.section].rawValue
-        if todoList.allCases[indexPath.section].rawValue == "마감일" {
+        if indexPath.section == 0 {
             let label = UILabel()
             label.text = dateValue
             label.font = .systemFont(ofSize: 12)
@@ -141,15 +144,42 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
                 make.centerY.equalTo(cell.contentView)
                 make.trailing.equalTo(cell.contentView).inset(20)
             }
-        }
+        } 
         cell.accessoryType = .disclosureIndicator
         cell.backgroundColor = .secondBackgroundColor
         cell.selectionStyle = .none
         cell.textLabel?.textColor = .white
         cell.textLabel?.font = .systemFont(ofSize: 14)
+        
+        //TODO: 이미지에 따라서 isHidden과 아닌 걸로 나누고,,이미지가 등록이 되어있따면 뜨도록,,
+        
+        if indexPath.section == 3 {
+         
+                let backView = UIView()
+                cell.contentView.addSubview(backView)
+                backView.addSubview(photoImageView)
+                backView.snp.makeConstraints { make in
+                    make.size.equalTo(100)
+                    make.trailing.equalTo(cell.contentView.snp.trailing).inset(20)
+                    make.top.equalTo(cell.contentView.snp.top).offset(8)
+                }
+                backView.backgroundColor = .clear
+                photoImageView.snp.makeConstraints { make in
+                    make.edges.equalTo(backView)
+                }
+                //photoImageView.image = UIImage(systemName: "circle")
+            }
+        
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 3 {
+            return photoImageView.isHidden == false ? 120 : UITableView.automaticDimension
+        } else {
+            return UITableView.automaticDimension
+        }
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0 :
@@ -169,6 +199,9 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
             vc.delegate = self
             vc.allowsEditing = true
             present(vc, animated: true)
+        case 4: //TODO: 목록선택뷰만들어서 챱챱
+            let vc = DateViewController()
+            navigationController?.pushViewController(vc, animated: true)
         default:
             print("TodoVC switch문 에러")
         }
@@ -247,6 +280,8 @@ extension TodoViewController: UIImagePickerControllerDelegate, UINavigationContr
         //originalImage를 넣으면 편집을 해도 original이 들어감,,
         if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             photoImageView.image = pickedImage
+            photoImageView.isHidden = false
+            tableView.reloadData()
         }
         dismiss(animated: true)
     }

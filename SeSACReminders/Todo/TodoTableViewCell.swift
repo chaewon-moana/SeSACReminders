@@ -19,6 +19,7 @@ final class TodoTableViewCell: UITableViewCell {
         return image
     }()
     let subLabel = UILabel()
+    let photoImageView = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -29,7 +30,7 @@ final class TodoTableViewCell: UITableViewCell {
     
     func setAddView() {
         contentView.addSubview(backView)
-        backView.addSubviews([mainLabel, chevronImageView, subLabel])
+        backView.addSubviews([mainLabel, chevronImageView, subLabel, photoImageView])
     }
     
     func configureLayout() {
@@ -52,16 +53,27 @@ final class TodoTableViewCell: UITableViewCell {
             make.bottom.equalTo(mainLabel.snp.bottom)
             make.leading.equalTo(mainLabel.snp.trailing).offset(4)
         }
+        photoImageView.snp.makeConstraints { make in
+            make.trailing.equalTo(subLabel.snp.leading).inset(12)
+            make.centerY.equalTo(contentView)
+            make.size.equalTo(100)
+            
+        }
     }
     
     func configureAttribute() {
         backView.layer.cornerRadius = 8
         backView.backgroundColor = .gray
         mainLabel.textColor = .white
+        photoImageView.image = UIImage(systemName: "pencil")
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
     }
     
 }

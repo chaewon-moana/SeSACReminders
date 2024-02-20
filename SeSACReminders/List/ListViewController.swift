@@ -50,7 +50,6 @@ final class ListViewController: BaseViewController {
     }
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
-        //delegate?.updateData(data: <#TodoTable#>)
     }
     override func setAddView() {
         view.addSubview(tableView)
@@ -92,8 +91,14 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        repo.updateDoneAttribute(index: indexPath.row)
-        tableView.reloadData()
+        let vc = TodoViewController()
+        
+        
+        
+        
+        //TODO: done 버튼 따로 만들어두기
+//        repo.updateDoneAttribute(index: indexPath.row)
+//        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

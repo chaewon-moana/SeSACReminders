@@ -27,3 +27,19 @@ class TodoTable: Object {
         self.done = false
     }
 }
+
+class CustomList: Object {
+    @Persisted(primaryKey: true) var id: ObjectId
+    @Persisted var name: String
+    @Persisted var regDate: Date
+    @Persisted var icon: String
+    @Persisted var color: String
+    
+    convenience init(name: String, regDate: Date, icon: String, color: String) {
+        self.init()
+        self.name = name
+        self.regDate = regDate
+        self.icon = icon
+        self.color = color
+    }
+}
