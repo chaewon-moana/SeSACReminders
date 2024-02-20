@@ -20,7 +20,7 @@ final class DateViewController: BaseViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.post(name: NSNotification.Name("DateValueReceived"), object: nil, userInfo: ["datePickerValue": dateValue!])
+        NotificationCenter.default.post(name: NSNotification.Name("DateValueReceived"), object: nil, userInfo: ["datePickerValue": dateValue ?? Date()])
     }
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         dateValue = sender.date

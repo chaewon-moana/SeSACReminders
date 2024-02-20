@@ -10,12 +10,13 @@ import SnapKit
 import RealmSwift
 
 protocol HomeVCUpdated {
-    func updateData()
+    func updateData(data: TodoTable)
 }
 
 final class HomeViewController: BaseViewController, HomeVCUpdated {
     
-    func updateData() {
+    func updateData(data: TodoTable) {
+        repo.createRecord(data)
         collectionView.reloadData()
     }
 

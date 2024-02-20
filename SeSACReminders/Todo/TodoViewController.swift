@@ -34,6 +34,9 @@ final class TodoViewController: BaseViewController {
     let repo = TodoTableRepository()
     lazy var rightButton = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(rightButtonTapped))
     
+    var textViewText = ""
+    var textFieldText = ""
+    
     let homeVC = HomeViewController()
     
     override func viewDidLoad() {
@@ -61,11 +64,7 @@ final class TodoViewController: BaseViewController {
         photoImageView.image = UIImage(systemName: "star")
         
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        delegate?.updateData()
-    }
+
     @objc func tagReceived(notification: NSNotification) {
         if let value = notification.userInfo?["tag"] as? String {
             currentData.tag = value
@@ -74,15 +73,10 @@ final class TodoViewController: BaseViewController {
     
     @objc func datePickerReceived(notification: NSNotification) {
         if let value = notification.userInfo?["datePickerValue"] as? Date {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            let str = dateFormatter.string(from: value)
-            let convertDate = dateFormatter.date(from: str)
-            
             let myDateFormatter = DateFormatter()
-            myDateFormatter.dateFormat = "yyyy년 MM월 dd일 a hh:mm"
+            myDateFormatter.dateFormat = "yyyy년 MM월 dd일 HH:mm"
             myDateFormatter.locale = Locale(identifier:"ko_KR")
-            let convertStr = myDateFormatter.string(from: convertDate!)
+            let convertStr = myDateFormatter.string(from: value)
             dateValue = convertStr
             currentData.dueDate = myDateFormatter.date(from: convertStr)
         }
@@ -93,17 +87,9 @@ final class TodoViewController: BaseViewController {
     }
     
     @objc func rightButtonTapped() {
-        print(#function)
-        //HELP: 왜 여기서 main 스레드로 동작하도록 바꾸어주면 되는지 모르게써....이 코드가 없다면 Realm에 입력이 되는데도, dismiss가 동작하지 않고 런타임에러가 발생ㅠㅠ
-        //DispatchQueue.main.async {
-//            self.repo.createRecord(self.currentData)
-        
-            if let image = self.photoImageView.image {
-                self.saveImageToDocument(image: image, fileName: "\(self.currentData.id)")
-                self.repo.createRecord(self.currentData)
-            }
-        //}
-//        delegate?.updateData()
+        currentData.title = textFieldText
+        currentData.memo = textViewText
+        delegate?.updateData(data: currentData)
         dismiss(animated: true)
     }
     
@@ -121,7 +107,6 @@ final class TodoViewController: BaseViewController {
             make.top.horizontalEdges.equalTo(view)
             make.height.equalTo(520)
         }
-        
         photoImageView.snp.makeConstraints { make in
             make.top.equalTo(tableView.snp.bottom)
             make.centerX.equalTo(view)
@@ -270,7 +255,7 @@ extension TodoViewController: UIImagePickerControllerDelegate, UINavigationContr
 extension TodoViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField.text! != "" {
-            currentData.title = textField.text!
+            textFieldText = textField.text!
         }
     }
     
@@ -298,7 +283,7 @@ extension TodoViewController: UITextViewDelegate {
             textView.text = textViewPlaceHolder
             textView.textColor = .gray
         } else {
-//            currentData.memo = textView.text
+            textViewText = textView.text
         }
     }
 }

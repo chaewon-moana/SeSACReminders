@@ -50,7 +50,7 @@ final class ListViewController: BaseViewController {
     }
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
-        delegate?.updateData()
+        //delegate?.updateData(data: <#TodoTable#>)
     }
     override func setAddView() {
         view.addSubview(tableView)
