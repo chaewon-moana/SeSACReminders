@@ -32,6 +32,7 @@
 		DEA87BEA2B82255100DD899E /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = DEA87BE92B82255100DD899E /* Toast */; };
 		DEA87BEC2B822F1900DD899E /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BEB2B822F1900DD899E /* ListTableViewCell.swift */; };
 		DEA87BF12B83916500DD899E /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BF02B83916500DD899E /* FileManager+Extension.swift */; };
+		DEA87BF42B83972800DD899E /* TodoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BF32B83972800DD899E /* TodoDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		DEA87BE62B821C4B00DD899E /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		DEA87BEB2B822F1900DD899E /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		DEA87BF02B83916500DD899E /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
+		DEA87BF32B83972800DD899E /* TodoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 		DE7D566A2B7C7EBC0060BE42 /* SeSACReminders */ = {
 			isa = PBXGroup;
 			children = (
+				DEA87BF22B83971600DD899E /* TodoDetail */,
 				DEA87BE52B821C4100DD899E /* List */,
 				DE7D56A12B7DE5B40060BE42 /* Realm */,
 				DE7D56822B7C7FB70060BE42 /* Base */,
@@ -165,6 +168,14 @@
 				DEA87BEB2B822F1900DD899E /* ListTableViewCell.swift */,
 			);
 			path = List;
+			sourceTree = "<group>";
+		};
+		DEA87BF22B83971600DD899E /* TodoDetail */ = {
+			isa = PBXGroup;
+			children = (
+				DEA87BF32B83972800DD899E /* TodoDetailViewController.swift */,
+			);
+			path = TodoDetail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,6 +279,7 @@
 				DE7D56942B7CB0850060BE42 /* DateViewController.swift in Sources */,
 				DE7D56A52B7E40690060BE42 /* RealmModel.swift in Sources */,
 				DE7D566E2B7C7EBC0060BE42 /* SceneDelegate.swift in Sources */,
+				DEA87BF42B83972800DD899E /* TodoDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,7 +17,8 @@ final class ListViewController: BaseViewController {
     let repo = TodoTableRepository()
     lazy var list = repo.fetchAllRecord()
     var tmpList: Results<TodoTable>?
-    
+    let dateFormatter = DateFormatter()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -79,7 +80,12 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         cell.checkBoxImage.image = item.done ? UIImage(systemName: "circle.fill") : UIImage(systemName: "circle")
         cell.titleLabel.text = item.title
         cell.memoLabel.text = item.memo
-        cell.dueDate.text = "\(item.dueDate)"
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일 hh시 mm분"
+        if let date = item.dueDate {
+            cell.dueDate.text = dateFormatter.string(from: date)
+        } else {
+            cell.dueDate.text = ""
+        }
         cell.tagLabel.text = item.tag
         cell.photoImageView.image = loadImageFromDocument(fileName: "\(item.id)")
         return cell

@@ -12,10 +12,8 @@ extension UIViewController {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return UIImage(systemName: "star")!}
         let fileURL = documentDirectory.appendingPathComponent("\(fileName).png")
         if FileManager.default.fileExists(atPath: fileURL.path()) {
-            print("파일있유")
             return UIImage(contentsOfFile: fileURL.path())!
         } else {
-            print("파일없어유")
             return UIImage(systemName: "star.fill")!
         }
 
