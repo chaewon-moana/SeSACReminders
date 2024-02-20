@@ -33,6 +33,7 @@
 		DEA87BEC2B822F1900DD899E /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BEB2B822F1900DD899E /* ListTableViewCell.swift */; };
 		DEA87BF12B83916500DD899E /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BF02B83916500DD899E /* FileManager+Extension.swift */; };
 		DEA87BF42B83972800DD899E /* TodoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BF32B83972800DD899E /* TodoDetailViewController.swift */; };
+		DEA87BFA2B84864B00DD899E /* HomeCellList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA87BF92B84864B00DD899E /* HomeCellList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		DEA87BEB2B822F1900DD899E /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		DEA87BF02B83916500DD899E /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
 		DEA87BF32B83972800DD899E /* TodoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailViewController.swift; sourceTree = "<group>"; };
+		DEA87BF92B84864B00DD899E /* HomeCellList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 		DE7D566A2B7C7EBC0060BE42 /* SeSACReminders */ = {
 			isa = PBXGroup;
 			children = (
+				DEA87BF82B84863D00DD899E /* Data */,
 				DEA87BF22B83971600DD899E /* TodoDetail */,
 				DEA87BE52B821C4100DD899E /* List */,
 				DE7D56A12B7DE5B40060BE42 /* Realm */,
@@ -176,6 +179,14 @@
 				DEA87BF32B83972800DD899E /* TodoDetailViewController.swift */,
 			);
 			path = TodoDetail;
+			sourceTree = "<group>";
+		};
+		DEA87BF82B84863D00DD899E /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				DEA87BF92B84864B00DD899E /* HomeCellList.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,6 +278,7 @@
 				DE7D568C2B7C90F50060BE42 /* UIView+Extension.swift in Sources */,
 				DE7D568A2B7C8D600060BE42 /* HomeCollectionViewCell.swift in Sources */,
 				DE7D56702B7C7EBC0060BE42 /* HomeViewController.swift in Sources */,
+				DEA87BFA2B84864B00DD899E /* HomeCellList.swift in Sources */,
 				DE7D56922B7C9D840060BE42 /* TodoTableViewCell.swift in Sources */,
 				DE7D56812B7C7F120060BE42 /* BaseViewController.swift in Sources */,
 				DE7D566C2B7C7EBC0060BE42 /* AppDelegate.swift in Sources */,

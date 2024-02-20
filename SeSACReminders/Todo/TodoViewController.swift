@@ -95,13 +95,15 @@ final class TodoViewController: BaseViewController {
     @objc func rightButtonTapped() {
         print(#function)
         //HELP: 왜 여기서 main 스레드로 동작하도록 바꾸어주면 되는지 모르게써....이 코드가 없다면 Realm에 입력이 되는데도, dismiss가 동작하지 않고 런타임에러가 발생ㅠㅠ
-        DispatchQueue.main.async {
-            self.repo.createRecord(self.currentData)
+        //DispatchQueue.main.async {
+//            self.repo.createRecord(self.currentData)
+        
             if let image = self.photoImageView.image {
                 self.saveImageToDocument(image: image, fileName: "\(self.currentData.id)")
+                self.repo.createRecord(self.currentData)
             }
-        }
-        delegate?.updateData()
+        //}
+//        delegate?.updateData()
         dismiss(animated: true)
     }
     
@@ -296,7 +298,7 @@ extension TodoViewController: UITextViewDelegate {
             textView.text = textViewPlaceHolder
             textView.textColor = .gray
         } else {
-            currentData.memo = textView.text
+//            currentData.memo = textView.text
         }
     }
 }

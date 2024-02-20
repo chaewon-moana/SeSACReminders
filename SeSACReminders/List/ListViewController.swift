@@ -15,8 +15,8 @@ final class ListViewController: BaseViewController {
     
     let tableView = UITableView()
     let repo = TodoTableRepository()
-    lazy var list = repo.fetchAllRecord()
-    var tmpList: Results<TodoTable>?
+    //lazy var list = repo.fetchAllRecord()
+    var tmpList: Results<TodoTable>!
     let dateFormatter = DateFormatter()
 
     override func viewDidLoad() {
@@ -31,18 +31,18 @@ final class ListViewController: BaseViewController {
         let backButton = UIBarButtonItem(title: "뒤로가기", style: .plain, target: self, action: #selector(backButtonTapped))
         navigationItem.leftBarButtonItem = backButton
 
-        let first = UIAction(title: "제목 오름차순") { _ in
-            self.list = self.repo.sortedTitleAscending(ascending: true)
-            self.tableView.reloadData()
-        }
+//        let first = UIAction(title: "제목 오름차순") { _ in
+//            self.list = self.repo.sortedTitleAscending(ascending: true)
+//            self.tableView.reloadData()
+//        }
         
-        let second = UIAction(title: "두번째 확인") { _ in
-            print("확확인")
-        }
-        
-        let rightFilterButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet.circle"), style: .plain, target: self, action: #selector(rightFilterButton))
-        rightFilterButton.menu = UIMenu(children: [first, second])
-        navigationItem.rightBarButtonItem = rightFilterButton
+//        let second = UIAction(title: "두번째 확인") { _ in
+//            print("확확인")
+//        }
+//        
+//        let rightFilterButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet.circle"), style: .plain, target: self, action: #selector(rightFilterButton))
+//        rightFilterButton.menu = UIMenu(children: [first, second])
+//        navigationItem.rightBarButtonItem = rightFilterButton
     }
     
     @objc func rightFilterButton() {
@@ -71,12 +71,12 @@ final class ListViewController: BaseViewController {
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return repo.fetchAllRecordCount()
+        return tmpList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListTableViewCell", for: indexPath) as! ListTableViewCell
-        let item = list[indexPath.row]
+        let item = tmpList[indexPath.row]
         cell.checkBoxImage.image = item.done ? UIImage(systemName: "circle.fill") : UIImage(systemName: "circle")
         cell.titleLabel.text = item.title
         cell.memoLabel.text = item.memo
@@ -100,12 +100,10 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         
         let delete = UIContextualAction(style: .normal, title: "삭제") { _,_,_  in
             print("삭제삭제")
-            self.repo.deleteItem(self.list[indexPath.row])
+            self.repo.deleteItem(self.tmpList[indexPath.row])
             self.tableView.reloadData()
         }
         delete.backgroundColor = .systemRed
-        
-    
         return UISwipeActionsConfiguration(actions:[delete])
     }
     
