@@ -10,7 +10,7 @@ import SnapKit
 import RealmSwift
 
 protocol HomeVCUpdated {
-    func updateData(data: TodoTable)
+    func updateData(data: TodoTable, selectedList: Int)
 }
 
 protocol CustomListUpdated {
@@ -19,9 +19,31 @@ protocol CustomListUpdated {
 
 final class HomeViewController: BaseViewController, HomeVCUpdated, CustomListUpdated {
     
-    func updateData(data: TodoTable) {
-        repo.createRecord(data)
+    func updateData(data: TodoTable, selectedList: Int) {
+        
+//        
+//        do {
+//            try realm.write {
+//                //realm.add(CustomList(name: listNameTextField.text!, regDate: Date(), icon: "star", color: "red"))
+//                //data.todo.append(todo)
+//                realm.add(CustomList(name: listNameTextField.text!, regDate: Date(), icon: "", color: ""))
+//            }
+//            dismiss(animated: true)
+//        } catch {
+//            print("customListVC 에러에러")
+//        }
+        
+        let listData = realm.objects(CustomList.self)[selectedList]
+        do {
+            try realm.write {
+                listData.todo.append(data)
+            }
+        } catch {
+            print("에러")
+        }
+        //repo.createRecord(data)
         collectionView.reloadData()
+        tableView.reloadData()
     }
     
     func reloadTable() {
@@ -30,14 +52,14 @@ final class HomeViewController: BaseViewController, HomeVCUpdated, CustomListUpd
 
     let repo = TodoTableRepository()
     let customRepo = CustomListRepository()
-    
+    let realm = try! Realm()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
     let tableView = UITableView(frame: .zero, style: .insetGrouped)
     let customListLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        print(realm.configuration.fileURL)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: "HomeCollectionViewCell")
@@ -47,6 +69,18 @@ final class HomeViewController: BaseViewController, HomeVCUpdated, CustomListUpd
         tableView.dataSource = self
         tableView.register(CustomListTableViewCell.self, forCellReuseIdentifier: "CustomListTableViewCell")
         tableView.rowHeight = 50
+        
+        //Dummy
+//        let folderList = ["개인", "업무", "동아리"]
+//        for i in folderList {
+//            do {
+//                try realm.write {
+//                    realm.add(CustomList(name: i, regDate: Date(), icon: "icon\(i)", color: "asdf"))
+//                }
+//            } catch {
+//                print(error)
+//            }
+//        }
         
         
         //let image = UIImage(systemName: "plus.circle.fill")
@@ -131,11 +165,17 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.listLabel.text = item.name
         cell.iconImageView.image = UIImage(systemName: item.icon)
-    
+        cell.countLabel.text = "\(item.todo.count)"
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = MyListViewController()
+        let tmp = customRepo.fetchAllRecords()[indexPath.row].name
+        vc.data = customRepo.fetchListRecord(name: tmp).first?.todo
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
 }
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {

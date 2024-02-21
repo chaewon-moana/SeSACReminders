@@ -31,12 +31,13 @@ final class TodoViewController: BaseViewController {
             tableView.reloadData()
         }
     }
-    var currentData: TodoTable = TodoTable(title: "", memo: nil, dueDate: nil, tag: nil, priority: nil, done: false)
+    var currentData: TodoTable = TodoTable(name: "", memo: nil, dueDate: nil, tag: nil, priority: nil)
     let repo = TodoTableRepository()
     lazy var rightButton = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(rightButtonTapped))
     
     var textViewText = ""
     var textFieldText = ""
+    var selectedList: Int = 0
     let homeVC = HomeViewController()
     
     override func viewDidLoad() {
@@ -61,6 +62,7 @@ final class TodoViewController: BaseViewController {
         tableView.backgroundColor = .clear
         NotificationCenter.default.addObserver(self, selector: #selector(datePickerReceived), name: Notification.Name("DateValueReceived"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(tagReceived), name: Notification.Name("TagValueReceived"), object: nil)
+       // NotificationCenter.default.addObserver(self, selector: #selector(listNameReceived), name: Notification.Name("ListNameReceived"), object: nil)
         
         photoImageView.isHidden = true
         
@@ -89,9 +91,11 @@ final class TodoViewController: BaseViewController {
     }
     
     @objc func rightButtonTapped() {
-        currentData.title = textFieldText
+        
+        
+        currentData.name = textFieldText
         currentData.memo = textViewText
-        delegate?.updateData(data: currentData)
+        delegate?.updateData(data: currentData, selectedList: selectedList)
         dismiss(animated: true)
     }
     
@@ -200,7 +204,11 @@ extension TodoViewController: UITableViewDelegate, UITableViewDataSource {
             vc.allowsEditing = true
             present(vc, animated: true)
         case 4: //TODO: 목록선택뷰만들어서 챱챱
-            let vc = DateViewController()
+            let vc = SelectListViewController()
+            vc.value = { value in
+                self.selectedList = value
+                print(value, "선택된 리스트")
+            }
             navigationController?.pushViewController(vc, animated: true)
         default:
             print("TodoVC switch문 에러")

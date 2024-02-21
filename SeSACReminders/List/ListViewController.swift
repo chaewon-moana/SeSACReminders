@@ -77,7 +77,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListTableViewCell", for: indexPath) as! ListTableViewCell
         let item = tmpList[indexPath.row]
         cell.checkBoxImage.image = item.done ? UIImage(systemName: "circle.fill") : UIImage(systemName: "circle")
-        cell.titleLabel.text = item.title
+        cell.titleLabel.text = item.name
         cell.memoLabel.text = item.memo
         dateFormatter.dateFormat = "yyyy년 MM월 dd일 hh시 mm분"
         if let date = item.dueDate {

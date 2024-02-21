@@ -6,12 +6,26 @@
 //
 
 import UIKit
+import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let configuration = Realm.Configuration(schemaVersion: 2) { migration, oldSchemaVersion in
+            
+            //1: TodoTable에 flag컬럼 추가
+            if oldSchemaVersion < 1 {
+                print("schemaVersion : 0 -> 1, TodoTable에 flag 컬럼 추가")
+            }
+            
+            //2: TodoTable에 title -> name으로 이름수정
+            if oldSchemaVersion < 2 {
+                migration.renameProperty(onType: TodoTable.className(), from: "title", to: "name")
+            }
+        }
+        Realm.Configuration.defaultConfiguration = configuration
         return true
     }
 

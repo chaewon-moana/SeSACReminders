@@ -24,13 +24,19 @@ class CustomListViewController: BaseViewController {
         
         let saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveButtonTapped))
         navigationItem.rightBarButtonItem = saveButton
+        NotificationCenter.default.post(name: Notification.Name("ListNameReceived"), object: nil, userInfo: ["listName": listNameTextField.text!])
     }
     
     @objc func saveButtonTapped() {
+        //let data = realm.objects(CustomList.self).first!
+        //let todo = TodoTable(title: "한야야야", done: true)
         do {
             try realm.write {
-                realm.add(CustomList(name: listNameTextField.text!, regDate: Date(), icon: "star", color: "red"))
+                //realm.add(CustomList(name: listNameTextField.text!, regDate: Date(), icon: "star", color: "red"))
+                //data.todo.append(todo)
+                realm.add(CustomList(name: listNameTextField.text!, regDate: Date(), icon: "", color: ""))
             }
+            dismiss(animated: true)
         } catch {
             print("customListVC 에러에러")
         }

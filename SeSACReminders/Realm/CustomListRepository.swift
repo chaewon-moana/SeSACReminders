@@ -24,4 +24,19 @@ final class CustomListRepository {
     func fetchAllRecords() -> Results<CustomList> {
         return realm.objects(CustomList.self)
     }
+    
+    func fetchListRecord(name: String) -> Results<CustomList> {
+        return realm.objects(CustomList.self).where {
+            $0.name == name
+        }
+    }
+    
+    func fetchListName() -> [String] {
+        let data = realm.objects(CustomList.self)
+        var result: [String] = []
+        for i in data {
+            result.append(i.name)
+        }
+     return result
+    }
 }

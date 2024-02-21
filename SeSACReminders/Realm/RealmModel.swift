@@ -10,21 +10,23 @@ import RealmSwift
 
 class TodoTable: Object {
     @Persisted(primaryKey: true) var id: ObjectId
-    @Persisted var title: String
+    @Persisted var name: String
     @Persisted var memo: String?
     @Persisted var dueDate: Date?
     @Persisted var tag: String?
     @Persisted var priority: String?
     @Persisted var done: Bool
-    
-    convenience init(title: String, memo: String? = nil, dueDate: Date? = nil, tag: String? = nil, priority: String? = nil, done: Bool) {
+    @Persisted var flag: Bool
+        
+    convenience init(name: String, memo: String? = nil, dueDate: Date? = nil, tag: String? = nil, priority: String? = nil) {
         self.init()
-        self.title = title
+        self.name = name
         self.memo = memo
         self.dueDate = dueDate
         self.tag = tag
         self.priority = priority
         self.done = false
+        self.flag = false
     }
 }
 
@@ -34,6 +36,8 @@ class CustomList: Object {
     @Persisted var regDate: Date
     @Persisted var icon: String
     @Persisted var color: String
+    
+    @Persisted var todo: List<TodoTable>
     
     convenience init(name: String, regDate: Date, icon: String, color: String) {
         self.init()

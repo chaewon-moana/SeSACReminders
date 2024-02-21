@@ -12,9 +12,10 @@ class CustomListTableViewCell: BaseTableViewCell {
 
     let iconImageView = UIImageView()
     let listLabel = UILabel()
+    let countLabel = UILabel()
     
     override func setAddView() {
-        contentView.addSubviews([iconImageView, listLabel])
+        contentView.addSubviews([iconImageView, listLabel, countLabel])
     }
     
     override func configureLayout() {
@@ -25,6 +26,10 @@ class CustomListTableViewCell: BaseTableViewCell {
         }
         listLabel.snp.makeConstraints { make in
             make.leading.equalTo(iconImageView.snp.trailing).offset(12)
+            make.centerY.equalTo(contentView)
+        }
+        countLabel.snp.makeConstraints { make in
+            make.trailing.equalTo(contentView.snp.trailing).inset(30)
             make.centerY.equalTo(contentView)
         }
     }
